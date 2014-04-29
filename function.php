@@ -278,10 +278,13 @@ function killProcess($pid) {
 
 // start archiving process
 function startProcess($cmd) {
-	$command = "$cmd > /dev/null 2>&1 & echo $!";
-    exec($command ,$op);
-    $pid = (int)$op[0];
-    return ($pid);
+	$logfile="/tmp/twapper.out";
+	$fh = fopen($logfile, 'a');
+	fwrite($fh, "$cmd\n");
+	fclose($fh);
+	$command = "$cmd > /dev/null 2>&1 & echo $!"; exec($command ,$op);
+	$pid = (int)$op[0];
+	return ($pid);
 }	
 
 
